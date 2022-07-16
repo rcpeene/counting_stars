@@ -1,0 +1,40 @@
+Goal of this effort is to count number of stars on
+the picture provided. The goal is not to reach
+the optimal and best counter but to evaluate
+how you write clear, versioned and documented
+code and how you evaluate an algorithm
+performance. It is fine it the counter does not
+work well as long as you provide performance
+measurements that reflect this. You can install
+and import packages that you find relevant to
+this task. Make sure to share any environment
+condition (conda or else) so that I can replicate
+your result.
+
+- Create a private GITHUB repository to hold
+your work
+- Push the image and all relevant code needed
+to replicate your result
+- No jupyter notebook should be committed to
+the repo: Part of the goal is to see how you
+structure this task with python functions,
+modules, scripts and classes of your choosing.
+Write clear code, with clean variable names,
+well-defined functions with modularity in mind.
+No documentation required.
+- Make sure to give time to evaluate the
+performance in a way you decide. HINTS: False
+
+Positive and False negative rates or similar
+metrics should be part of your evaluation.
+- I will expect to evaluate your repository in one
+week from our first interview. Use as much time
+as you wish within that timeframe.
+- Please work alone on the coding part. The
+goal is also to make sure you would be a good
+fit for this job and as a result be happy in this
+role. You are welcome to leverage the internet
+in any ways.
+- Feel free to reach out to
+jeromel@alleninstitute.org if you have any
+questions
