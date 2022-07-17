@@ -19,11 +19,12 @@ def test_sample(sample_num, labels):
 	print("labeled value - ",label)
 	print("counted value - ",count)
 
-	false_positives = 0
-	false_negatives = 0
+	# false_positives and false_negatives are dependent on the difference between the counted value and the label value
 	if label > count:
+		false_positives = 0
 		false_negatives = label - count
 	elif count > label:
+		false_negatives = 0
 		false_positives = count - label
 	return false_positives, false_negatives
 
@@ -51,7 +52,7 @@ def main():
 			print("There is no valid label for that sample number")
 			return
 
-	# if no sample number given, analyze all samples with valid labels and measuring accuracy
+	# if no sample number given, analyze all samples with valid labels and measuring false_positives and false_negatives
 	false_positives = 0
 	false_negatives = 0
 	for sample_num in range(len(labels)):
