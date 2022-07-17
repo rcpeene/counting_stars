@@ -40,6 +40,7 @@ def adjacent_pixels(image, px_loc):
 
 
 def mark_cluster(image, px_loc, visited_pixels, size):
+	"""Recursively radiates outward from px_loc, marking every unvisited pixel which is bright enough to be considered part of a star as 'visited', stopping when there are no more unvisited bright pixels in a contiguous space."""
 	# print("mark_cluster")
 	global brightness_threshold
 
@@ -53,6 +54,7 @@ def mark_cluster(image, px_loc, visited_pixels, size):
 
 
 def main(filename="samples/sample1.jpg"):
+	"""Counts the number of stars in a given image. First, this calculates a 'brightness threshold' which is used to determine if a given pixel is bright enough to be part of a star. Then, initializes an empty list of 'visited pixels. Finally, scans through all unvisited pixels in the image. If a pixel is bright enough to be a star, increment n_stars, and mark all pixels in that cluster as a visited.'"""
 	global brightness_threshold
 	global n_stars
 
