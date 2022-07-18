@@ -15,6 +15,7 @@ def calculate_threshold(image):
 	"""Determines a 'brightness threshold' which will be used for identifying stars based on the average and maximum pixel brightnesses in the image"""
 	height, width, px_depth = np.shape(image)
 	pixels = np.reshape(image, (height*width, px_depth))
+	# get brightness of each pixel in the image
 	brightnesses = [brightness(pixel) for pixel in pixels]
 	max_brightness = max(brightnesses)
 	avg_brightness = sum(brightnesses) / len(brightnesses)
@@ -28,6 +29,7 @@ def adjacent_pixels(image, px_loc):
 	row, col = px_loc
 
 	adj_px_locs = []
+	# ensure we don't exceed the image bounds with adjacent pixel locations
 	if row != height-1:
 		adj_px_locs.append((row+1, col))
 	if row != 0:
@@ -41,13 +43,15 @@ def adjacent_pixels(image, px_loc):
 
 def mark_cluster(image, px_loc, visited_pixels, size):
 	"""Recursively radiates outward from px_loc, marking every unvisited pixel which is bright enough to be considered part of a star as 'visited', stopping when there are no more unvisited bright pixels in a contiguous space."""
-	# print("mark_cluster")
 	global brightness_threshold
 
 	visited_pixels.add(px_loc)
+	# for each adjacent pixel to the given pixel
 	for adj_px_loc in adjacent_pixels(image, px_loc):
+		# if pixel is already marked as visited, don't need to revisit it.
 		if adj_px_loc in visited_pixels:
 			continue
+		# if pixel is bright enough, its part of this cluster! mark it
 		if brightness(image[adj_px_loc]) > brightness_threshold:
 			size += mark_cluster(image, adj_px_loc, visited_pixels, size+1)
 	return size
@@ -63,10 +67,13 @@ def main(filename="stars_image.jpg"):
 	visited_pixels = set()
 
 	height, width, px_depth = np.shape(image)
+	# iterate over 2d image array
 	for row in range(height):
 		for col in range(width):
+			# if pixel marked as visited, no need to visit it again
 			if (row,col) in visited_pixels:
 				continue
+			# if pixel is bright enough, its a star! mark it and all in its cluster
 			if brightness(image[row,col]) > brightness_threshold:
 				# print(f"counting star at {row}, {col} with brightness:",brightness(image[row,col]))
 				n_stars += 1
