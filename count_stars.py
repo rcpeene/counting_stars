@@ -4,7 +4,6 @@ import numpy as np
 
 
 brightness_threshold = 0
-n_stars = 0
 
 
 def brightness(pixel):
@@ -13,13 +12,14 @@ def brightness(pixel):
 
 
 def calculate_threshold(image):
-	"""Gets the average brightness of all pixels as a 'brightness threshold' which will be used for identifying stars."""
+	"""Determines a 'brightness threshold' which will be used for identifying stars based on the average and maximum pixel brightnesses in the image"""
 	height, width, px_depth = np.shape(image)
 	pixels = np.reshape(image, (height*width, px_depth))
-	# print("calculating threshold")
 	brightnesses = [brightness(pixel) for pixel in pixels]
-	# print("threshold calcualted")
-	return (sum(brightnesses) / len(brightnesses)) * 6
+	max_brightness = max(brightnesses)
+	avg_brightness = sum(brightnesses) / len(brightnesses)
+	# threshold is top 80% brightness between average and maximum
+	return avg_brightness + ( (max_brightness-avg_brightness) / 5 )
 
 
 def adjacent_pixels(image, px_loc):
@@ -53,14 +53,13 @@ def mark_cluster(image, px_loc, visited_pixels, size):
 	return size
 
 
-def main(filename="samples/sample1.jpg"):
+def main(filename="stars_image.jpg"):
 	"""Counts the number of stars in a given image. First, this calculates a 'brightness threshold' which is used to determine if a given pixel is bright enough to be part of a star. Then, initializes an empty list of 'visited pixels. Finally, scans through all unvisited pixels in the image. If a pixel is bright enough to be a star, increment n_stars, and mark all pixels in that cluster as a visited.'"""
 	global brightness_threshold
-	global n_stars
+	n_stars = 0
 
 	image = skimage.io.imread(fname=filename)
 	brightness_threshold = calculate_threshold(image)
-	# print("threshold:",brightness_threshold)
 	visited_pixels = set()
 
 	height, width, px_depth = np.shape(image)
@@ -74,8 +73,8 @@ def main(filename="samples/sample1.jpg"):
 				size = mark_cluster(image, (row,col), visited_pixels, 1)
 				# print(f"cluster at {row}, {col} of size {size}\n")
 
-	# print("threshold was:",brightness_threshold)
-	# print("count:",n_stars)
+	print("threshold was:",brightness_threshold)
+	print("count:",n_stars)
 	return n_stars
 
 
