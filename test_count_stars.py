@@ -20,6 +20,7 @@ def test_sample(sample_num, labels):
 
 	# percent error is the ratio of the absolute difference between measured and real, over the real
 	error = (abs(count-label)/label) * 100
+	print("error -",error,"%")
 
 	# false_positives and false_negatives are dependent on the difference between the counted value and the label value
 	false_positives = 0
@@ -75,7 +76,7 @@ def main():
 	print("\n\n========= Results:")
 	print("False Positives -", false_positives)
 	print("False Negatives -", false_negatives)
-	print("Average Error - ", average_error)
+	print("Average Error - ", average_error,"%")
 
 
 main()
