@@ -20,11 +20,11 @@ def test_sample(sample_num, labels):
 	print("counted value - ",count)
 
 	# false_positives and false_negatives are dependent on the difference between the counted value and the label value
+	false_positives = 0
+	false_negatives = 0
 	if label > count:
-		false_positives = 0
 		false_negatives = label - count
 	elif count > label:
-		false_negatives = 0
 		false_positives = count - label
 	return false_positives, false_negatives
 
