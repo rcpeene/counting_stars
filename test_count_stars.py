@@ -52,7 +52,7 @@ def main():
 		res = test_sample(sample_num, labels)
 		if res == None:
 			print("There is no valid label for that sample number")
-			return
+		return
 
 	# if no sample number given, analyze all samples with valid labels and measuring false_positives, false_negatives, and error
 	cumulative_error = 0
