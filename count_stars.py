@@ -80,8 +80,8 @@ def main(filename="stars_image.jpg"):
 				size = mark_cluster(image, (row,col), visited_pixels, 1)
 				# print(f"cluster at {row}, {col} of size {size}\n")
 
-	print("threshold was:",brightness_threshold)
-	print("count:",n_stars)
+	print("threshold value -",brightness_threshold)
+	print("counted value -",n_stars)
 	return n_stars
 
 

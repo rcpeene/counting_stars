@@ -14,10 +14,12 @@ def test_sample(sample_num, labels):
 	except:
 		return None
 
-	count = count_stars.main(f"samples/sample{sample_num}.jpg")
 	print(f"\ntesting sample {sample_num}:")
+	count = count_stars.main(f"samples/sample{sample_num}.jpg")
 	print("labeled value - ",label)
-	print("counted value - ",count)
+
+	# percent error is the ratio of the absolute difference between measured and real, over the real
+	error = (abs(count-label)/label) * 100
 
 	# false_positives and false_negatives are dependent on the difference between the counted value and the label value
 	false_positives = 0
@@ -26,7 +28,7 @@ def test_sample(sample_num, labels):
 		false_negatives = label - count
 	elif count > label:
 		false_positives = count - label
-	return false_positives, false_negatives
+	return false_positives, false_negatives, error
 
 
 def main():
@@ -52,20 +54,28 @@ def main():
 			print("There is no valid label for that sample number")
 			return
 
-	# if no sample number given, analyze all samples with valid labels and measuring false_positives and false_negatives
+	# if no sample number given, analyze all samples with valid labels and measuring false_positives, false_negatives, and error
+	cumulative_error = 0
+	n_samples_tested = 0
 	false_positives = 0
 	false_negatives = 0
 	for sample_num in range(len(labels)):
 		res = test_sample(sample_num, labels)
+		# skip samples without valid labels
 		if res == None:
 			continue
-		fp, fn = res
+		n_samples_tested += 1
+		fp, fn, err = res
 		false_positives += fp
 		false_negatives += fn
+		cumulative_error += err
+
+	average_error = cumulative_error / n_samples_tested
 
 	print("\n\n========= Results:")
 	print("False Positives -", false_positives)
 	print("False Negatives -", false_negatives)
+	print("Average Error - ", average_error)
 
 
 main()
