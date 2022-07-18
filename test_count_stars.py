@@ -29,7 +29,7 @@ def test_sample(sample_num, labels):
 		false_negatives = label - count
 	elif count > label:
 		false_positives = count - label
-	return false_positives, false_negatives, error
+	return count, label, false_positives, false_negatives, error
 
 
 def main():
@@ -56,6 +56,8 @@ def main():
 		return
 
 	# if no sample number given, analyze all samples with valid labels and measuring false_positives, false_negatives, and error
+	true_positives = 0
+	total_count = 0
 	cumulative_error = 0
 	n_samples_tested = 0
 	false_positives = 0
@@ -66,7 +68,9 @@ def main():
 		if res == None:
 			continue
 		n_samples_tested += 1
-		fp, fn, err = res
+		count, label, fp, fn, err = res
+		true_positives += label
+		total_count += count
 		false_positives += fp
 		false_negatives += fn
 		cumulative_error += err
@@ -74,9 +78,12 @@ def main():
 	average_error = cumulative_error / n_samples_tested
 
 	print("\n\n========= Results:")
+	print("Total Count - ", total_count)
 	print("False Positives -", false_positives)
 	print("False Negatives -", false_negatives)
 	print("Average Error - ", average_error,"%")
+	print("Precision -",true_positives/(true_positives + false_positives))
+	print("Recall -",true_positives/(true_positives + false_negatives),)
 
 
 main()
